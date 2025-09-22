@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>{{ movie.title }}</h2>
+  <p><strong>Género:</strong> {{ movie.genre }}</p>
+  <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
+  <p>{{ movie.description }}</p>
+  <p><strong>Asientos disponibles:</strong> {{ movie.seats_available() }}</p>
+  <a href="/movies/{{ movie.id }}/buy">Comprar tickets</a>
+{% endblock %}

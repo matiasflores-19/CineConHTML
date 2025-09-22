@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>Comprar tickets - {{ movie.title }}</h2>
+  <p>Disponibles: {{ movie.seats_available() }}</p>
+  <form method="post">
+    <label>Tu nombre<br><input name="buyer_name"></label><br>
+    <label>Cantidad<br><input name="quantity" type="number" value="1" min="1"></label><br>
+    <button type="submit">Confirmar compra</button>
+  </form>
+{% endblock %}

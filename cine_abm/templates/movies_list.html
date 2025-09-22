@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block title %}Películas{% endblock %}
+{% block content %}
+  <h2>Películas</h2>
+  <form method="get">
+    <input type="text" name="q" placeholder="buscar por título o género" value="{{ q }}">
+    <button>Buscar</button>
+  </form>
+  <table>
+    <thead><tr><th>Título</th><th>Género</th><th>Duración</th><th>Disponibles</th><th>Acciones</th></tr></thead>
+    <tbody>
+      {% for m in movies %}
+        <tr>
+          <td>{{ m.title }}</td>
+          <td>{{ m.genre }}</td>
+          <td>{{ m.duration }} min</td>
+          <td>{{ m.seats_available() }}</td>
+          <td>
+            <a href="/movies/{{ m.id }}">Ver</a> |
+            <a href="/movies/{{ m.id }}/edit">Editar</a> |
+            <form method="post" action="/movies/{{ m.id }}/delete" style="display:inline" onsubmit="return confirm('Eliminar?');">
+              <button type="submit">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

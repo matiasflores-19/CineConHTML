@@ -1,0 +1,10 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+header { background: #222; color: #fff; padding: 10px 20px; }
+header a { color: #fff; text-decoration: none; }
+main { padding: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
+.flashes { list-style: none; padding: 0; }
+.flashes li { padding: 6px; margin-bottom: 6px; border-radius: 4px; }
+.flashes li.error { background: #ffd6d6; }
+.flashes li.message { background: #d6ffd6; }

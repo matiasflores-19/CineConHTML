@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h2>Cartelera</h2>
+  <ul>
+    {% for m in movies %}
+      <li>
+        <strong>{{ m.title }}</strong> — {{ m.genre }} — {{ m.duration }} min — {{ m.seats_available() }} disponibles
+        <a href="/movies/{{ m.id }}">Ver</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
