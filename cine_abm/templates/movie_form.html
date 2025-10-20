@@ -1,12 +1,37 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h2>{{ action }} película</h2>
-  <form method="post">
-    <label>Título<br><input name="title" value="{{ movie.title if movie else '' }}" required></label><br>
-    <label>Género<br><input name="genre" value="{{ movie.genre if movie else '' }}"></label><br>
-    <label>Duración (min)<br><input name="duration" type="number" value="{{ movie.duration if movie else '' }}" required></label><br>
-    <label>Total asientos<br><input name="seats_total" type="number" value="{{ movie.seats_total if movie else 100 }}"></label><br>
-    <label>Descripción<br><textarea name="description">{{ movie.description if movie else '' }}</textarea></label><br>
-    <button type="submit">{{ action }}</button>
-  </form>
+  <div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">{{ action }} película</h2>
+    <form method="post" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label class="form-label">Título</label>
+        <input name="title" class="form-control" value="{{ movie.title if movie else '' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Género</label>
+        <input name="genre" class="form-control" value="{{ movie.genre if movie else '' }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Duración (min)</label>
+        <input name="duration" type="number" class="form-control" value="{{ movie.duration if movie else '' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Total asientos</label>
+        <input name="seats_total" type="number" class="form-control" value="{{ movie.seats_total if movie else 100 }}">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Descripción</label>
+        <textarea name="description" class="form-control" rows="3">{{ movie.description if movie else '' }}</textarea>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <a href="/movies" class="btn btn-outline-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">{{ action }}</button>
+      </div>
+    </form>
+  </div>
 {% endblock %}
