@@ -1,10 +1,30 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h2>Comprar tickets - {{ movie.title }}</h2>
-  <p>Disponibles: {{ movie.seats_available() }}</p>
-  <form method="post">
-    <label>Tu nombre<br><input name="buyer_name"></label><br>
-    <label>Cantidad<br><input name="quantity" type="number" value="1" min="1"></label><br>
-    <button type="submit">Confirmar compra</button>
-  </form>
+  <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+    <div class="card-body p-4">
+      <h2 class="text-center mb-4">Comprar tickets - {{ movie.title }}</h2>
+      
+      <div class="alert alert-info text-center">
+        <strong>Asientos disponibles:</strong> {{ movie.seats_available() }}
+      </div>
+      
+      <form method="post">
+        <div class="mb-3">
+          <label class="form-label">Tu nombre</label>
+          <input type="text" name="buyer_name" class="form-control" placeholder="Opcional - por defecto: Anónimo">
+        </div>
+        
+        <div class="mb-4">
+          <label class="form-label">Cantidad de tickets</label>
+          <input type="number" name="quantity" class="form-control" value="1" min="1" max="{{ movie.seats_available() }}">
+          <div class="form-text">Máximo: {{ movie.seats_available() }} tickets</div>
+        </div>
+        
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">Confirmar compra</button>
+          <a href="/movies/{{ movie.id }}" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
 {% endblock %}

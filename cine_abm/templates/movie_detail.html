@@ -1,9 +1,36 @@
 {% extends 'layout.html' %}
 {% block content %}
-  <h2>{{ movie.title }}</h2>
-  <p><strong>Género:</strong> {{ movie.genre }}</p>
-  <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
-  <p>{{ movie.description }}</p>
-  <p><strong>Asientos disponibles:</strong> {{ movie.seats_available() }}</p>
-  <a href="/movies/{{ movie.id }}/buy">Comprar tickets</a>
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <h2 class="card-title">{{ movie.title }}</h2>
+        <span class="badge bg-primary fs-6">{{ movie.genre }}</span>
+      </div>
+      
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <p class="card-text">{{ movie.description }}</p>
+        </div>
+        <div class="col-md-4">
+          <div class="card bg-light">
+            <div class="card-body">
+              <h5 class="card-title">Información</h5>
+              <p><strong>Duración:</strong> {{ movie.duration }} minutos</p>
+              <p>
+                <strong>Disponibilidad:</strong> 
+                <span class="badge {% if movie.seats_available() > 10 %}bg-success{% else %}bg-warning{% endif %}">
+                  {{ movie.seats_available() }} asientos disponibles
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="d-flex gap-2">
+        <a href="/movies/{{ movie.id }}/buy" class="btn btn-primary">Comprar tickets</a>
+        <a href="/cartelera" class="btn btn-outline-secondary">Volver a cartelera</a>
+      </div>
+    </div>
+  </div>
 {% endblock %}

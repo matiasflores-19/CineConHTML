@@ -1,10 +1,118 @@
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
-header { background: #222; color: #fff; padding: 10px 20px; }
-header a { color: #fff; text-decoration: none; }
-main { padding: 20px; }
-table { width: 100%; border-collapse: collapse; }
-th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
-.flashes { list-style: none; padding: 0; }
-.flashes li { padding: 6px; margin-bottom: 6px; border-radius: 4px; }
-.flashes li.error { background: #ffd6d6; }
-.flashes li.message { background: #d6ffd6; }
+/* Estilos generales */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Estilos para la tabla de películas */
+.table-container {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    border-top: none;
+    font-weight: 600;
+    color: #495057;
+}
+
+.table td, .table th {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+/* Estilos para formularios */
+.form-control, .form-select {
+    border-radius: 6px;
+    padding: 10px 15px;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    border-color: #86b7fe;
+}
+
+/* Estilos para botones de acción */
+.btn-action {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+/* Estilos para tarjetas de películas */
+.movie-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.movie-card .card-img-top {
+    height: 300px;
+    object-fit: cover;
+}
+
+/* Estilos para la página de login */
+.login-container {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Estilos para badges de disponibilidad */
+.availability-badge {
+    font-size: 0.875rem;
+}
+
+/* Estilos para el buscador */
+.search-box {
+    max-width: 400px;
+}
+
+/* Estilos para la navegación */
+.nav-link {
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: #adb5bd !important;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+    
+    .btn-action {
+        display: block;
+        margin-bottom: 5px;
+        width: 100%;
+    }
+}

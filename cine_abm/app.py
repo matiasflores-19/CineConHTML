@@ -1,6 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
-from models import db, Movie, Ticket
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session
+from models import db, Movie, Ticket, User
 import os
+from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -11,10 +13,49 @@ db.init_app(app)
 
 with app.app_context():
     db.create_all()
+    # Crear usuario admin por defecto si no existe
+    if not User.query.filter_by(username='admin').first():
+        admin_user = User(username='admin', password=generate_password_hash('admin123'))
+        db.session.add(admin_user)
+        db.session.commit()
+
+# Decorador para requerir login
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            flash('Por favor, inicie sesión para acceder a esta página', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        user = User.query.filter_by(username=username).first()
+        
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            flash('Inicio de sesión exitoso', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Usuario o contraseña incorrectos', 'error')
+    
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Sesión cerrada correctamente', 'info')
+    return redirect(url_for('index'))
 
 @app.route('/movies')
 def movies_list():
@@ -26,6 +67,7 @@ def movies_list():
     return render_template('movies_list.html', movies=movies, q=q)
 
 @app.route('/movies/new', methods=['GET', 'POST'])
+@login_required
 def movie_new():
     if request.method == 'POST':
         title = request.form['title'].strip()
@@ -41,11 +83,12 @@ def movie_new():
         movie = Movie(title=title, description=description, duration=duration, genre=genre, seats_total=seats_total)
         db.session.add(movie)
         db.session.commit()
-        flash('Película creada correctamente')
+        flash('Película creada correctamente', 'success')
         return redirect(url_for('movies_list'))
     return render_template('movie_form.html', action='Crear')
 
 @app.route('/movies/<int:movie_id>/edit', methods=['GET', 'POST'])
+@login_required
 def movie_edit(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     if request.method == 'POST':
@@ -59,16 +102,17 @@ def movie_edit(movie_id):
             return redirect(url_for('movie_edit', movie_id=movie_id))
         movie.genre = request.form.get('genre', '')
         db.session.commit()
-        flash('Película actualizada')
+        flash('Película actualizada', 'success')
         return redirect(url_for('movies_list'))
     return render_template('movie_form.html', action='Editar', movie=movie)
 
 @app.route('/movies/<int:movie_id>/delete', methods=['POST'])
+@login_required
 def movie_delete(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)
     db.session.commit()
-    flash('Película eliminada')
+    flash('Película eliminada', 'success')
     return redirect(url_for('movies_list'))
 
 @app.route('/movies/<int:movie_id>')
@@ -99,7 +143,7 @@ def buy_ticket(movie_id):
         movie.seats_sold += quantity
         db.session.add(ticket)
         db.session.commit()
-        flash('Compra realizada con éxito')
+        flash('Compra realizada con éxito', 'success')
         return redirect(url_for('movie_detail', movie_id=movie.id))
 
     return render_template('buy_ticket.html', movie=movie)
